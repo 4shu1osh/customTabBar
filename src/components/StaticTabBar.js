@@ -27,19 +27,23 @@ export default function StaticTabBar({tabs, value}) {
   console.log(tabs, value);
   return (
     <React.Fragment>
-      <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
+      <View style={styles.container}>
         {tabs.map((item, key) => {
           return (
             <TouchableOpacity
               onPress={() => onPress(key, item.name)}
               {...{key}}
               style={
-                item.name == currentIcon ? [styles.iconBg, {bottom: 10}] : styles.iconBg
+                item.name == currentIcon
+                  ? [styles.iconBg, {bottom: 10}]
+                  : styles.iconBg
               }>
               <Image
                 source={images[item.name]}
                 style={
-                  item.name == currentIcon ? [styles.icon, {tintColor: '#000'}]: styles.icon
+                  item.name == currentIcon
+                    ? [styles.icon, {tintColor: '#000'}]
+                    : styles.icon
                 }
               />
             </TouchableOpacity>
@@ -66,5 +70,6 @@ const styles = StyleSheet.create({
   },
   container: {
     flexDirection: 'row',
+    justifyContent: 'space-around'
   },
 });

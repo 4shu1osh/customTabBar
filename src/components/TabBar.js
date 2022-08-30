@@ -4,7 +4,6 @@ import {
   Animated,
   Dimensions,
   StyleSheet,
-  SafeAreaView,
 } from 'react-native';
 import React from 'react';
 import * as shape from 'd3-shape';
@@ -42,7 +41,6 @@ const getPath = () => {
     .x(d => d.x)
     .y(d => d.y)([
     {x: 0, y: 0},
-    {x: width, y: 0},
   ]);
   const tab = shape
     .line()
@@ -62,9 +60,8 @@ const getPath = () => {
     .line()
     .x(d => d.x)
     .y(d => d.y)([
-    {x: width + tabWidth, y: 0},
-    {x: width * 2, y: 0},
-    {x: width * 2, y: height},
+    {x: width * 2.5, y: 0},
+    {x: width * 2.5, y: height},
     {x: 0, y: height},
     {x: 0, y: 0},
   ]);
@@ -81,7 +78,7 @@ export default function TabBar() {
     <React.Fragment>
       <View {...{height, width}}>
         <AnimatedSvg
-          width={width * 2}
+          width={width *2.5}
           {...{height}}
           style={{
             transform: [
@@ -96,13 +93,7 @@ export default function TabBar() {
           <StaticTabBar value={transX} {...{ tabs }} />
         </View>
       </View>
-      {/* <SafeAreaView style={styles.container} /> */}
     </React.Fragment>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#fff',
-  },
-});
