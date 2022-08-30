@@ -1,5 +1,6 @@
 import {
   View,
+  Platform,
   Animated,
   Dimensions,
   StyleSheet,
@@ -11,7 +12,9 @@ import {Path, Svg,} from 'react-native-svg';
 import StaticTabBar from '../components/StaticTabBar'
 
 
-const height = 64;
+const height = Platform.OS === 'ios' ? 76 : 64;
+const cutoutHeight = Platform.OS === 'ios' ? 24 : 12;
+
 const backgroundColor = '#fff';
 const {width} = Dimensions.get('screen');
 const AnimatedSvg = Animated.createAnimatedComponent(Svg);
@@ -48,14 +51,13 @@ const getPath = () => {
     .curve(shape.curveBasis)([
     {x: width, y: 0},
     {x: width + 5, y: 0},
-    {x: width + 10, y: 10},
-    {x: width + 15, y: height},
-    {x: width + tabWidth - 15, y: height},
-    {x: width + tabWidth - 10, y: 10},
+    {x: width + 16, y: 10},
+    {x: width + 21, y: height-cutoutHeight},
+    {x: width + tabWidth - 21, y: height-cutoutHeight},
+    {x: width + tabWidth - 16, y: 10},
     {x: width + tabWidth - 5, y: 0},
     {x: width + tabWidth, y: 0},
   ]);
-  
   const right = shape
     .line()
     .x(d => d.x)
@@ -72,11 +74,8 @@ const getPath = () => {
 const d = getPath();
 
 export default function TabBar() {
-  const value = React.useRef(new Animated.Value(0)).current;
-  const transX = value.interpolate({
-    inputRange: [0, width],
-    outputRange: [-width, 0],
-  });
+  const value = React.useRef(new Animated.Value(-width)).current;
+  const transX = value;
 
   return (
     <React.Fragment>
@@ -94,16 +93,16 @@ export default function TabBar() {
           <Path fill={backgroundColor} {...{d}} />
         </AnimatedSvg>
         <View style={StyleSheet.absoluteFill}>
-          <StaticTabBar {...{ tabs, value }} />
+          <StaticTabBar value={transX} {...{ tabs }} />
         </View>
       </View>
-      <SafeAreaView style={styles.container} />
+      {/* <SafeAreaView style={styles.container} /> */}
     </React.Fragment>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: backgroundColor,
+    backgroundColor: '#fff',
   },
 });
