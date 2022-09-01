@@ -70,7 +70,7 @@ const getPath = () => {
 
 const d = getPath();
 
-export default function TabBar() {
+export default function TabBar({callbackFn}) {
   const value = React.useRef(new Animated.Value(-width)).current;
   const transX = value;
 
@@ -89,8 +89,15 @@ export default function TabBar() {
           }}>
           <Path fill={backgroundColor} {...{d}} />
         </AnimatedSvg>
-        <View style={StyleSheet.absoluteFill}>
-          <StaticTabBar value={transX} {...{ tabs }} />
+        <View style={{
+          position: 'absolute',
+          backgroundColor: 'transparent',
+          top: 0,
+          left: 0,
+          bottom: 0,
+          right: 0
+        }}>
+          <StaticTabBar callbackFn={callbackFn} value={transX} {...{ tabs }} />
         </View>
       </View>
     </React.Fragment>

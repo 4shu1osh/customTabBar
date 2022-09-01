@@ -12,7 +12,7 @@ const {width} = Dimensions.get('window');
 
 import images from '../utils/localImages';
 
-export default function StaticTabBar({tabs, value}) {
+export default function StaticTabBar({tabs, value, callbackFn}) {
   const tabWidth = width / tabs.length;
   const [currentIcon, setCurrentIcon] = React.useState('home');
 
@@ -22,9 +22,9 @@ export default function StaticTabBar({tabs, value}) {
       toValue: -width + tabWidth * index,
       useNativeDriver: true,
     }).start();
+    callbackFn(name)
   };
 
-  console.log(tabs, value);
   return (
     <React.Fragment>
       <View style={styles.container}>
@@ -35,7 +35,7 @@ export default function StaticTabBar({tabs, value}) {
               {...{key}}
               style={
                 item.name == currentIcon
-                  ? [styles.iconBg, {bottom: 10}]
+                  ? [styles.iconBg, styles.activeIconBg]
                   : styles.iconBg
               }>
               <Image
@@ -63,10 +63,22 @@ const styles = StyleSheet.create({
   iconBg: {
     width: 54,
     height: 54,
-    borderRadius: 50,
     alignItems: 'center',
     backgroundColor: '#fff',
     justifyContent: 'center',
+  },
+  activeIconBg: {
+    bottom: 10,
+    borderRadius: 50,
+    sshadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.85,
+    shadowRadius: 3.84,
+    
+    elevation: 5,
   },
   container: {
     flexDirection: 'row',
